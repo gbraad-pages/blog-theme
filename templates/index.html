@@ -30,7 +30,7 @@
         {% if articles[1:] %}
             <h2 style="margin: 2rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border);">Recent Articles</h2>
             <div class="blog-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
-                {% for article in articles[1:5] %}
+                {% for article in articles[1:4] %}
                     <div class="blog-post-card">
                         <div class="blog-post-title">
                             <a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a>
