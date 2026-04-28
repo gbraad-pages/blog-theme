@@ -1,2 +1,53 @@
-{% extends "article_list.html" %}
+{% extends "base.html" %}
 {% block canonical_rel %}<link rel="canonical" href="{{ SITEURL }}">{% endblock %}
+
+{% block content %}
+    {% if articles %}
+        {% set featured = articles[0] %}
+        <article class="blog-post-card" style="margin-bottom: 2rem;">
+            <div class="post-header">
+                <h1 class="post-title">
+                    <a href="{{ SITEURL }}/{{ featured.url }}" style="color: inherit; text-decoration: none;">{{ featured.title }}</a>
+                </h1>
+                <div class="post-meta">
+                    <i class="fa fa-calendar"></i> {{ featured.locale_date }}
+                    {% if featured.category %}
+                        &nbsp;&middot;&nbsp; <a href="{{ SITEURL }}/{{ featured.category.url }}">{{ featured.category }}</a>
+                    {% endif %}
+                    {% if featured.tags %}
+                        &nbsp;&middot;&nbsp;
+                        {% for tag in featured.tags %}
+                            <a href="{{ SITEURL }}/{{ tag.url }}" class="tag">{{ tag }}</a>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="post-content">
+                {{ featured.content }}
+            </div>
+        </article>
+
+        {% if articles[1:] %}
+            <h2 style="margin: 2rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border);">Recent Articles</h2>
+            <div class="blog-list">
+                {% for article in articles[1:5] %}
+                    <div class="blog-post-card">
+                        <div class="blog-post-title">
+                            <a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a>
+                        </div>
+                        <div class="blog-post-meta">
+                            <i class="fa fa-calendar"></i> {{ article.locale_date }}
+                            {% if article.category %}
+                                &nbsp;&middot;&nbsp; <a href="{{ SITEURL }}/{{ article.category.url }}">{{ article.category }}</a>
+                            {% endif %}
+                        </div>
+                        <div class="blog-post-summary">{{ article.summary }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="{{ SITEURL }}/{{ ARCHIVES_URL | default('archives.html') }}" class="tag" style="font-size: 1em; padding: 8px 20px;">View all archives &rarr;</a>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock content %}
